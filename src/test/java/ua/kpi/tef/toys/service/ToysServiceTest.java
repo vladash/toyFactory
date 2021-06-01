@@ -35,6 +35,7 @@ public class ToysServiceTest {
     @Test
     public void whenCreateNewToyThenSaveToy() throws ToySaveException {
         Toy toy = new Toy();
+        Toy toy2 = new Toy();
         toyService.createNewToy(toy);
         Mockito.verify(toyRepository, Mockito.times(1)).save(ArgumentMatchers.any(Toy.class));
     }

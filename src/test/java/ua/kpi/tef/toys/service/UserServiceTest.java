@@ -36,6 +36,9 @@ class UserServiceTest {
         assertEquals(user.getLastName(), userService.createUser(user).getLastName());
         assertEquals(user.getEmail(), userService.createUser(user).getEmail());
         assertEquals(user.getRole(), userService.createUser(user).getRole());
+        assertEquals(user.getFirstName(), userService.createUser(user).getFirstName());
+        assertEquals(user.getLastName(), userService.createUser(user).getLastName());
+        assertEquals(user.getEmail(), userService.createUser(user).getEmail());
     }
 
     @Test
@@ -53,6 +56,8 @@ class UserServiceTest {
                 "vlada.lada.17@gmail.com", "qwerty", "qwerty", RoleType.ROLE_USER));
         list.add(new User(1L, "Vlada", "Shestobanskaya",
                 "vlada.lada.17@gmail.com", "qwerty", "qwerty", RoleType.ROLE_USER));
+        list.add(new User(1L, "Vlada", "Shestobanskaya",
+                "vlada.lada.17@gmail.com", "qwerty", "qwerty", RoleType.ROLE_USER));
         Mockito.doReturn(list).when(userRepository).findAll();
         assertEquals(2, userRepository.findAll().size());
     }
@@ -60,6 +65,9 @@ class UserServiceTest {
     @Test
     void whenUpdateUserThenReturnUpdatedUser() {
         User user = new User(1L, "Vlada", "Shestobanskaya",
+                "vlada.lada.17@gmail.com", "qwerty", "qwerty", RoleType.ROLE_USER);
+        userService.updateUser(user, "ann_shevh.17@gmail.com", "Ann", "Shevchenko", "Ann123");
+        User user2 = new User(1L, "Vlada", "Shestobanskaya",
                 "vlada.lada.17@gmail.com", "qwerty", "qwerty", RoleType.ROLE_USER);
         userService.updateUser(user, "ann_shevh.17@gmail.com", "Ann", "Shevchenko", "Ann123");
         assertEquals("ann_shevh.17@gmail.com", user.getEmail());

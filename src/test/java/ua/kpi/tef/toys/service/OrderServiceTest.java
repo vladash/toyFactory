@@ -46,8 +46,13 @@ public class OrderServiceTest {
     public void whenMakeOrderThenReturnOrder() throws UserNotFoundException, ToyNotFoundException, OrderBookingException {
         User user = new User(1L, "Vlada", "Shestobanskaya",
                 "vlada.lada.17@gmail.com", "qwerty", "qwerty", RoleType.ROLE_USER);
+        User user2 = new User(1L, "Vlada", "Shestobanskaya",
+                "vlada.lada.17@gmail.com", "qwerty", "qwerty", RoleType.ROLE_USER);
 
         Toy toy = new Toy(1L, "piano", Kind.KEYBOARDS, "key",
+                true, Motion.STRINGED_MEDIUM, Material.CEDAR, Coating.OIL, ToySize.BIG,
+                AvailableStatus.IN_STOCK, 12L, BigDecimal.TEN);
+        Toy toy2 = new Toy(1L, "piano", Kind.KEYBOARDS, "key",
                 true, Motion.STRINGED_MEDIUM, Material.CEDAR, Coating.OIL, ToySize.BIG,
                 AvailableStatus.IN_STOCK, 12L, BigDecimal.TEN);
         Mockito.doReturn(Optional.of(toy))
