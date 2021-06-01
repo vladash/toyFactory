@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d926d7ed-e1d9-4611-b2f8-d415f9a9fc4d" name="Default Changelist" comment="Разделить свою программу на уровни&#10;авторизация (админ, продавец, работник др. рода, менеджер с разными правами...)&#10;работа вашего предприятия (для пошива одежды методы типа &quot;сшить&quot; &quot;перешить&quot;, &quot;подготовить ткань&quot;, т.п.)&#10;работа с клиентом ( снять мерки, оповестить, что одежда сшита, попросить прийти на примерку)&#10;работа клиента с вами (сообщить об изменении параметров, отказ от заказа, заказ)">
+    <list default="true" id="d926d7ed-e1d9-4611-b2f8-d415f9a9fc4d" name="Default Changelist" comment="Создать свои контроллеры (RestController)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -13,6 +13,19 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <favorite-branches>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="task5" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </favorite-branches>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
         <entry key="$PROJECT_DIR$" value="task5" />
@@ -27,6 +40,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ChangesTree.GroupingKeys" value="directory" />
     <property name="RequestMappingsPanelOrder0" value="0" />
     <property name="RequestMappingsPanelOrder1" value="1" />
     <property name="RequestMappingsPanelWidth0" value="75" />
@@ -35,9 +49,19 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/ua/kpi/tef/toys" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/test/java/ua/kpi/tef/toys" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Sveta\IdeaProjects\toyFactory\src\test\java\ua\kpi\tef\toys" />
+      <recent name="C:\Users\Sveta\IdeaProjects\toyFactory\src\main\java\ua\kpi\tef\toys\pojo\enums" />
+      <recent name="C:\Users\Sveta\IdeaProjects\toyFactory\src\main\java\ua\kpi\tef\toys" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="ua.kpi.tef.toys" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
@@ -101,7 +125,21 @@
       <option name="project" value="LOCAL" />
       <updated>1622531126572</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Перейти на использование аннотаций (@Controller, Service)">
+      <created>1622532239640</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1622532239640</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Создать свои контроллеры (RestController)">
+      <created>1622532272181</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1622532272181</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -118,7 +156,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="task3" />
+                        <option value="task5" />
                       </list>
                     </value>
                   </entry>
@@ -142,6 +180,17 @@
             </list>
           </value>
         </entry>
+        <entry key="User">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="*" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
@@ -150,6 +199,8 @@
     <MESSAGE value="Initial commit" />
     <MESSAGE value="Task1" />
     <MESSAGE value="Разделить свою программу на уровни&#10;авторизация (админ, продавец, работник др. рода, менеджер с разными правами...)&#10;работа вашего предприятия (для пошива одежды методы типа &quot;сшить&quot; &quot;перешить&quot;, &quot;подготовить ткань&quot;, т.п.)&#10;работа с клиентом ( снять мерки, оповестить, что одежда сшита, попросить прийти на примерку)&#10;работа клиента с вами (сообщить об изменении параметров, отказ от заказа, заказ)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Разделить свою программу на уровни&#10;авторизация (админ, продавец, работник др. рода, менеджер с разными правами...)&#10;работа вашего предприятия (для пошива одежды методы типа &quot;сшить&quot; &quot;перешить&quot;, &quot;подготовить ткань&quot;, т.п.)&#10;работа с клиентом ( снять мерки, оповестить, что одежда сшита, попросить прийти на примерку)&#10;работа клиента с вами (сообщить об изменении параметров, отказ от заказа, заказ)" />
+    <MESSAGE value="Перейти на использование аннотаций (@Controller, Service)" />
+    <MESSAGE value="Создать свои контроллеры (RestController)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Создать свои контроллеры (RestController)" />
   </component>
 </project>
