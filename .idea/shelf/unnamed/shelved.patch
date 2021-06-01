@@ -1,0 +1,98 @@
+Index: src/test/java/ua/kpi/tef/toys/service/ToysServiceTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package ua.kpi.tef.toys.service;\r\n\r\nimport org.junit.Test;\r\nimport org.junit.runner.RunWith;\r\nimport org.mockito.ArgumentMatchers;\r\nimport org.mockito.Mockito;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.boot.test.context.SpringBootTest;\r\nimport org.springframework.boot.test.mock.mockito.MockBean;\r\nimport org.springframework.test.context.junit4.SpringRunner;\r\nimport ua.kpi.tef.toys.exception.ToyNotFoundException;\r\nimport ua.kpi.tef.toys.exception.ToySaveException;\r\nimport ua.kpi.tef.toys.pojo.Toy;\r\nimport ua.kpi.tef.toys.pojo.enums.*;\r\nimport ua.kpi.tef.toys.repository.ToysRepository;\r\n\r\nimport java.math.BigDecimal;\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\nimport java.util.Optional;\r\n\r\nimport static org.junit.jupiter.api.Assertions.assertEquals;\r\nimport static org.junit.jupiter.api.Assertions.assertNull;\r\n\r\n@RunWith(SpringRunner.class)\r\n@SpringBootTest\r\npublic class ToysServiceTest {\r\n\r\n    @Autowired\r\n    private ToysService toyService;\r\n\r\n    @MockBean\r\n    ToysRepository toyRepository;\r\n\r\n    @Test\r\n    public void whenCreateNewToyThenSaveToy() throws ToySaveException {\r\n        Toy toy = new Toy();\r\n        toyService.createNewToy(toy);\r\n        Mockito.verify(toyRepository, Mockito.times(1)).save(ArgumentMatchers.any(Toy.class));\r\n    }\r\n\r\n    @Test\r\n    public void whenGetToyByIdThenReturnToyByID() throws ToyNotFoundException {\r\n        Toy toy = new Toy(1L, \"piano\", Kind.KEYBOARDS, \"key\",\r\n                true, Motion.STRINGED_MEDIUM, Material.CEDAR, Coating.OIL, ToySize.BIG,\r\n                AvailableStatus.IN_STOCK, 12L, BigDecimal.TEN);\r\n        Mockito.doReturn(Optional.of(toy))\r\n                .when(toyRepository)\r\n                .findToyById(1L);\r\n    }\r\n\r\n    @Test\r\n    public void whenGetAllToyThenReturnToyList(){\r\n        List<Toy> toyList = new ArrayList<>();\r\n        toyList.add( new Toy(1L, \"piano\", Kind.KEYBOARDS, \"key\",\r\n                true, Motion.STRINGED_MEDIUM, Material.CEDAR, Coating.OIL, ToySize.BIG,\r\n                AvailableStatus.IN_STOCK, 12L, BigDecimal.TEN));\r\n        toyList.add( new Toy(2L, \"piano\", Kind.KEYBOARDS, \"key\",\r\n                true, Motion.STRINGED_MEDIUM, Material.CEDAR, Coating.OIL, ToySize.BIG,\r\n                AvailableStatus.IN_STOCK, 12L, BigDecimal.TEN));\r\n        toyList.add( new Toy(3L, \"guitar\", Kind.STRINGS, \"string\",\r\n                true, Motion.STRINGED_MEDIUM, Material.CEDAR, Coating.OIL, ToySize.MEDIUM,\r\n                AvailableStatus.IN_STOCK, 12L, BigDecimal.TEN));\r\n        assertEquals(3, toyList.size());\r\n        Mockito.doReturn(toyList).when(toyRepository).findAll();\r\n        List<Toy> allToys = toyService.getAllToy();\r\n        assertEquals(3, allToys.size());\r\n    }\r\n\r\n    @Test\r\n    public void whenEditToyThenSaveEditedToy(){\r\n        Toy toy = new Toy();\r\n        toyService.editToy(toy);\r\n        Mockito.verify(toyRepository, Mockito.times(1)).save(ArgumentMatchers.any(Toy.class));\r\n    }\r\n\r\n    @Test\r\n    public void whenDeleteToyByIdThenInvokeDelete() throws ToyNotFoundException {\r\n        Toy toy = new Toy(1L, \"piano\", Kind.KEYBOARDS, \"key\",\r\n                true, Motion.STRINGED_MEDIUM, Material.CEDAR, Coating.OIL, ToySize.BIG,\r\n                AvailableStatus.IN_STOCK, 12L, BigDecimal.TEN);\r\n        Mockito.doReturn(Optional.of(toy))\r\n                .when(toyRepository)\r\n                .findToyById(1L);\r\n        toyService.deleteToyById(1L);\r\n        Mockito.verify(toyRepository, Mockito.times(1)).findToyById(1L);\r\n        Mockito.verify(toyRepository, Mockito.times(1)).delete(toy);\r\n    }\r\n\r\n    @Test\r\n    public void whenGetSearchedToysByKindTHenReturnToyList(){\r\n        List<Toy> toyList = new ArrayList<>();\r\n        toyList.add( new Toy(1L, \"piano\", Kind.KEYBOARDS, \"key\",\r\n                true, Motion.STRINGED_MEDIUM, Material.CEDAR, Coating.OIL, ToySize.BIG,\r\n                AvailableStatus.IN_STOCK, 12L, BigDecimal.TEN));\r\n        toyList.add( new Toy(2L, \"piano\", Kind.KEYBOARDS, \"key\",\r\n                true, Motion.STRINGED_MEDIUM, Material.CEDAR, Coating.OIL, ToySize.BIG,\r\n                AvailableStatus.IN_STOCK, 12L, BigDecimal.TEN));\r\n        toyList.add( new Toy(3L, \"guitar\", Kind.STRINGS, \"string\",\r\n                true, Motion.STRINGED_MEDIUM, Material.CEDAR, Coating.OIL, ToySize.MEDIUM,\r\n                AvailableStatus.IN_STOCK, 12L, BigDecimal.TEN));\r\n        assertEquals(3, toyList.size());\r\n        Mockito.doReturn(toyList).when(toyRepository).findToyByKind(Kind.KEYBOARDS);\r\n        List<Toy> searchedList = toyService.getSearchedToyByKind(Kind.KEYBOARDS);\r\n        assertEquals(2, searchedList.size());\r\n        assertEquals(1L, searchedList.get(0).getId());\r\n        assertEquals(2L, searchedList.get(1).getId());\r\n    }\r\n\r\n    @Test\r\n    public void getSearchedToysBySize(){\r\n        List<Toy> toyList1 = new ArrayList<>();\r\n        toyList1.add( new Toy(1L, \"piano\", Kind.KEYBOARDS, \"key\",\r\n                true, Motion.STRINGED_MEDIUM, Material.CEDAR, Coating.OIL, ToySize.MEDIUM,\r\n                AvailableStatus.IN_STOCK, 12L, BigDecimal.TEN));\r\n        toyList1.add( new Toy(2L, \"piano\", Kind.KEYBOARDS, \"key\",\r\n                true, Motion.STRINGED_MEDIUM, Material.CEDAR, Coating.OIL, ToySize.BIG,\r\n                AvailableStatus.IN_STOCK, 12L, BigDecimal.TEN));\r\n        toyList1.add( new Toy(3L, \"guitar\", Kind.STRINGS, \"string\",\r\n                true, Motion.STRINGED_MEDIUM, Material.CEDAR, Coating.OIL, ToySize.MEDIUM,\r\n                AvailableStatus.IN_STOCK, 12L, BigDecimal.TEN));\r\n        assertEquals(3, toyList1.size());\r\n        Mockito.doReturn(toyList1).when(toyRepository).findAll();\r\n        List<Toy> searchedList = toyService.getSearchedToysBySize(ToySize.BIG);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/ua/kpi/tef/toys/service/ToysServiceTest.java b/src/test/java/ua/kpi/tef/toys/service/ToysServiceTest.java
+--- a/src/test/java/ua/kpi/tef/toys/service/ToysServiceTest.java	(revision 9810f7a12dfab97cd118f85a376c72eed4ec61ca)
++++ b/src/test/java/ua/kpi/tef/toys/service/ToysServiceTest.java	(date 1621351600360)
+@@ -41,7 +41,7 @@
+ 
+     @Test
+     public void whenGetToyByIdThenReturnToyByID() throws ToyNotFoundException {
+-        Toy toy = new Toy(1L, "piano", Kind.KEYBOARDS, "key",
++        Toy toy = new Toy(1L, "car", Kind.KEYBOARDS, "key",
+                 true, Motion.STRINGED_MEDIUM, Material.CEDAR, Coating.OIL, ToySize.BIG,
+                 AvailableStatus.IN_STOCK, 12L, BigDecimal.TEN);
+         Mockito.doReturn(Optional.of(toy))
+@@ -52,13 +52,13 @@
+     @Test
+     public void whenGetAllToyThenReturnToyList(){
+         List<Toy> toyList = new ArrayList<>();
+-        toyList.add( new Toy(1L, "piano", Kind.KEYBOARDS, "key",
++        toyList.add( new Toy(1L, "car", Kind.KEYBOARDS, "key",
+                 true, Motion.STRINGED_MEDIUM, Material.CEDAR, Coating.OIL, ToySize.BIG,
+                 AvailableStatus.IN_STOCK, 12L, BigDecimal.TEN));
+-        toyList.add( new Toy(2L, "piano", Kind.KEYBOARDS, "key",
++        toyList.add( new Toy(2L, "car", Kind.KEYBOARDS, "key",
+                 true, Motion.STRINGED_MEDIUM, Material.CEDAR, Coating.OIL, ToySize.BIG,
+                 AvailableStatus.IN_STOCK, 12L, BigDecimal.TEN));
+-        toyList.add( new Toy(3L, "guitar", Kind.STRINGS, "string",
++        toyList.add( new Toy(3L, "ball", Kind.STRINGS, "string",
+                 true, Motion.STRINGED_MEDIUM, Material.CEDAR, Coating.OIL, ToySize.MEDIUM,
+                 AvailableStatus.IN_STOCK, 12L, BigDecimal.TEN));
+         assertEquals(3, toyList.size());
+@@ -76,7 +76,7 @@
+ 
+     @Test
+     public void whenDeleteToyByIdThenInvokeDelete() throws ToyNotFoundException {
+-        Toy toy = new Toy(1L, "piano", Kind.KEYBOARDS, "key",
++        Toy toy = new Toy(1L, "car", Kind.KEYBOARDS, "key",
+                 true, Motion.STRINGED_MEDIUM, Material.CEDAR, Coating.OIL, ToySize.BIG,
+                 AvailableStatus.IN_STOCK, 12L, BigDecimal.TEN);
+         Mockito.doReturn(Optional.of(toy))
+@@ -90,13 +90,13 @@
+     @Test
+     public void whenGetSearchedToysByKindTHenReturnToyList(){
+         List<Toy> toyList = new ArrayList<>();
+-        toyList.add( new Toy(1L, "piano", Kind.KEYBOARDS, "key",
++        toyList.add( new Toy(1L, "car", Kind.KEYBOARDS, "key",
+                 true, Motion.STRINGED_MEDIUM, Material.CEDAR, Coating.OIL, ToySize.BIG,
+                 AvailableStatus.IN_STOCK, 12L, BigDecimal.TEN));
+-        toyList.add( new Toy(2L, "piano", Kind.KEYBOARDS, "key",
++        toyList.add( new Toy(2L, "car", Kind.KEYBOARDS, "key",
+                 true, Motion.STRINGED_MEDIUM, Material.CEDAR, Coating.OIL, ToySize.BIG,
+                 AvailableStatus.IN_STOCK, 12L, BigDecimal.TEN));
+-        toyList.add( new Toy(3L, "guitar", Kind.STRINGS, "string",
++        toyList.add( new Toy(3L, "ball", Kind.STRINGS, "string",
+                 true, Motion.STRINGED_MEDIUM, Material.CEDAR, Coating.OIL, ToySize.MEDIUM,
+                 AvailableStatus.IN_STOCK, 12L, BigDecimal.TEN));
+         assertEquals(3, toyList.size());
+@@ -110,13 +110,13 @@
+     @Test
+     public void getSearchedToysBySize(){
+         List<Toy> toyList1 = new ArrayList<>();
+-        toyList1.add( new Toy(1L, "piano", Kind.KEYBOARDS, "key",
++        toyList1.add( new Toy(1L, "car", Kind.KEYBOARDS, "key",
+                 true, Motion.STRINGED_MEDIUM, Material.CEDAR, Coating.OIL, ToySize.MEDIUM,
+                 AvailableStatus.IN_STOCK, 12L, BigDecimal.TEN));
+-        toyList1.add( new Toy(2L, "piano", Kind.KEYBOARDS, "key",
++        toyList1.add( new Toy(2L, "car", Kind.KEYBOARDS, "key",
+                 true, Motion.STRINGED_MEDIUM, Material.CEDAR, Coating.OIL, ToySize.BIG,
+                 AvailableStatus.IN_STOCK, 12L, BigDecimal.TEN));
+-        toyList1.add( new Toy(3L, "guitar", Kind.STRINGS, "string",
++        toyList1.add( new Toy(3L, "ball", Kind.STRINGS, "string",
+                 true, Motion.STRINGED_MEDIUM, Material.CEDAR, Coating.OIL, ToySize.MEDIUM,
+                 AvailableStatus.IN_STOCK, 12L, BigDecimal.TEN));
+         assertEquals(3, toyList1.size());
+Index: src/test/java/ua/kpi/tef/toys/service/UserServiceTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package ua.kpi.tef.toys.service;\r\n\r\nimport org.junit.jupiter.api.Test;\r\nimport org.junit.runner.RunWith;\r\nimport org.mockito.Mockito;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.boot.test.context.SpringBootTest;\r\nimport org.springframework.boot.test.mock.mockito.MockBean;\r\nimport org.springframework.test.context.junit4.SpringRunner;\r\nimport ua.kpi.tef.toys.pojo.User;\r\nimport ua.kpi.tef.toys.pojo.enums.RoleType;\r\nimport ua.kpi.tef.toys.repository.UserRepository;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\nimport java.util.Optional;\r\n\r\nimport static org.junit.jupiter.api.Assertions.*;\r\n\r\n///@DataJpaTest\r\n@RunWith(SpringRunner.class)\r\n@SpringBootTest\r\nclass UserServiceTest {\r\n    @Autowired\r\n    private UserService  userService;\r\n\r\n    @MockBean\r\n    UserRepository userRepository;\r\n\r\n\r\n    @Test\r\n    void whenCreateUserThenReturnUser() {\r\n        User user = new User(1L, \"Vlada\", \"Lila\",\r\n                \"vlada.lada.17@gmail.com\", \"qwerty\", \"qwerty\", RoleType.ROLE_USER);\r\n        assertEquals(user.getFirstName(), userService.createUser(user).getFirstName());\r\n        assertEquals(user.getLastName(), userService.createUser(user).getLastName());\r\n        assertEquals(user.getEmail(), userService.createUser(user).getEmail());\r\n        assertEquals(user.getRole(), userService.createUser(user).getRole());\r\n    }\r\n\r\n    @Test\r\n    void whenFindUserByIdThenReturnUserById() {\r\n        Mockito.doReturn(Optional.of(new User(1L, \"Vlada\", \"Shestobanskaya\",\r\n                \"vlada.lada.17@gmail.com\", \"qwerty\", \"qwerty\", RoleType.ROLE_USER)))\r\n                .when(userRepository)\r\n                .findUserById(1L);\r\n    }\r\n\r\n    @Test\r\n    void whenFindAllThenReturnUserList() {\r\n        List<User> list = new ArrayList<>();\r\n        list.add(new User(1L, \"Vlada\", \"Shestobanskaya\",\r\n                \"vlada.lada.17@gmail.com\", \"qwerty\", \"qwerty\", RoleType.ROLE_USER));\r\n        list.add(new User(1L, \"Vlada\", \"Shestobanskaya\",\r\n                \"vlada.lada.17@gmail.com\", \"qwerty\", \"qwerty\", RoleType.ROLE_USER));\r\n        Mockito.doReturn(list).when(userRepository).findAll();\r\n        assertEquals(2, userRepository.findAll().size());\r\n    }\r\n\r\n    @Test\r\n    void whenUpdateUserThenReturnUpdatedUser() {\r\n        User user = new User(1L, \"Vlada\", \"Shestobanskaya\",\r\n                \"vlada.lada.17@gmail.com\", \"qwerty\", \"qwerty\", RoleType.ROLE_USER);\r\n        userService.updateUser(user, \"ann_shevh.17@gmail.com\", \"Ann\", \"Shevchenko\", \"Ann123\");\r\n        assertEquals(\"ann_shevh.17@gmail.com\", user.getEmail());\r\n        assertEquals(\"Ann\", user.getLastName());\r\n        assertEquals(\"Shevchenko\", user.getFirstName());\r\n        assertEquals(\"Ann123\", user.getUsername());\r\n    }\r\n\r\n    @Test\r\n    void whenDeleteByIdThenInvokeDelete() {\r\n        userService.deleteById(1L);\r\n        userService.deleteById(5L);\r\n        Mockito.verify(userRepository, Mockito.times(1)).deleteById(1L);\r\n        Mockito.verify(userRepository, Mockito.times(1)).deleteById(5L);\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/ua/kpi/tef/toys/service/UserServiceTest.java b/src/test/java/ua/kpi/tef/toys/service/UserServiceTest.java
+--- a/src/test/java/ua/kpi/tef/toys/service/UserServiceTest.java	(revision 9810f7a12dfab97cd118f85a376c72eed4ec61ca)
++++ b/src/test/java/ua/kpi/tef/toys/service/UserServiceTest.java	(date 1621351528420)
+@@ -30,7 +30,7 @@
+ 
+     @Test
+     void whenCreateUserThenReturnUser() {
+-        User user = new User(1L, "Vlada", "Lila",
++        User user = new User(1L, "Vlada", "Shestobanskaya",
+                 "vlada.lada.17@gmail.com", "qwerty", "qwerty", RoleType.ROLE_USER);
+         assertEquals(user.getFirstName(), userService.createUser(user).getFirstName());
+         assertEquals(user.getLastName(), userService.createUser(user).getLastName());
